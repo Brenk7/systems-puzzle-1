@@ -25,7 +25,7 @@ def success():
  
     qry = db_session.query(Items)
     # results = qry.all()
-    results = [(item.id, item.name, item.description, str(item.date_added)) for item in qry.all()]
+    results = [(item.id, item.name, item.quantity, item.description, str(item.date_added)) for item in qry.all()]
 
     return str(results)
   
