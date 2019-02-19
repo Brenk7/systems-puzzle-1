@@ -1,6 +1,8 @@
 import datetime
 import os
 
+import json
+
 from flask import Flask, render_template, redirect, url_for
 from forms import ItemForm
 from models import Items
@@ -21,14 +23,21 @@ def add_item():
 
 @app.route("/success")
 def success():
-    # results = []
- 
-    qry = db_session.query(Items)
-    # results = qry.all()
-    results = [(item.id, item.name, item.quantity, item.description, str(item.date_added)) for item in qry.all()]
+    results = []
+    items = Items.query.all()
 
-    return str(results)
+    for item in items:
+        new_item = {
+            'id': item.id,
+            'name': item.name,
+            'quantity': item.quantity,
+            'Description': item.description,
+            'Date added': str(item.date_added)
+        }
+        results.append(new_item)
+
+    return json.dumps(results)
   
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port="5001")
+    app.run(host='0.0.0.0')
